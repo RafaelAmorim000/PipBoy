@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 public class WindowPanel extends JPanel {
-    private String option = "Status";  // Pode inicializar com a opção desejada
+    private String option = "Status";  // opição inicial
     private static JPanel panel;
   
     private int currentFrame = 0; // Adicione esta variável para controlar os frames do sprite   
@@ -25,7 +25,7 @@ public class WindowPanel extends JPanel {
         
         /*------------------------------------------------------
         *
-        *							BUTTON
+        *			BUTTON
         *
        	-------------------------------------------------------*/
         JButton statusButton = createButton("Status", "Status");
@@ -92,7 +92,7 @@ public class WindowPanel extends JPanel {
  //------------------------------------------
     
     
-    			//Telas do pipBoy
+    		//Telas do pipBoy
     
     
     
@@ -101,7 +101,7 @@ public class WindowPanel extends JPanel {
     
     /*-----------------------------------
     				
-    				metodos do
+    		metodos da tela de skills
       
    --------------------------------------*/ 
     
@@ -109,7 +109,7 @@ public class WindowPanel extends JPanel {
     //layout skills-----------------------------
     private void drawSkills(Graphics g) {
         // Lógica para desenhar a tela de Skills	
-			g.drawString("Skills", getWidth() / 2, getHeight() / 2);		
+		g.drawString("Skills", getWidth() / 2, getHeight() / 2);		
     }   
     
 /*------------------------------------------------------
@@ -133,7 +133,7 @@ public class WindowPanel extends JPanel {
             URL location = getClass().getResource("vaultboywalking-SheetSheet.png");
 
             if (location != null) {
-                // Resto do seu código para carregar a imagem
+                //carregar a imagem
                 this.spriteSheet = ImageIO.read(location);
             } else {
                 System.err.println("Imagem não encontrada: "+ location);
@@ -147,7 +147,7 @@ public class WindowPanel extends JPanel {
             int frameWidth = 121;
             int frameHeight = 169;
 
-            // Fatores de escala desejados (por exemplo, 2x)
+            // Fatores de escala desejados 
             double scaleX = 1.5;
             double scaleY = 1.5;
 

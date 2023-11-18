@@ -130,7 +130,7 @@ public class WindowPanel extends JPanel {
     private void loadSpriteSheetStatus() {
         try {
             // Carrega a sprite sheet como um recurso do sistema de arquivos
-            URL location = getClass().getResource("vaultboywalking-SheetSheet.png");
+            URL location = getClass().getResource("image/vaultboywalking-SheetSheet.png");
 
             if (location != null) {
                 //carregar a imagem

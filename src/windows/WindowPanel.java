@@ -1,4 +1,4 @@
-package Windows;
+package windows;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -8,10 +8,11 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 
 public class WindowPanel extends JPanel {
+	
+	//Fields
     private String option = "Status";  // opição inicial
     private static JPanel panel;
   
@@ -19,6 +20,7 @@ public class WindowPanel extends JPanel {
     private BufferedImage spriteSheet;
     private Timer timer;
     
+    //Constructor
     public WindowPanel() {
         setLayout(null);
         setBackground(Color.BLACK);
@@ -65,13 +67,14 @@ public class WindowPanel extends JPanel {
          loadSpriteSheetStatus();
     }
 
+    //Methods
     // Função para configurar as propriedades dos botões no estilo Pip-Boy
     private void setPipBoyButtonProperties(JButton button) {
         button.setOpaque(false);
         button.setContentAreaFilled(false);
         button.setBorderPainted(false);
         button.setForeground(Color.GREEN);
-        button.setFont(button.getFont().deriveFont(Font.BOLD, button.getFont().getSize()));
+        button.setFont(new Font("Arial", Font.BOLD,button.getFont().getSize()));
         button.setText(button.getText().toUpperCase());
         button.setMargin(new Insets(5, 60,30,5));
         button.setFocusPainted(false); 
@@ -159,7 +162,7 @@ public class WindowPanel extends JPanel {
     private void loadSpriteSheetStatus() {
         try {
             // Carrega a sprite sheet como um recurso do sistema de arquivos
-            URL location = getClass().getResource("image/vaultboywalking-SheetSheet.png");
+            URL location = getClass().getClassLoader().getResource("imagens/pipboy-sprites.png");
 
             if (location != null) {
                 //carregar a imagem
@@ -199,7 +202,7 @@ public class WindowPanel extends JPanel {
     private void drawSpecial(Graphics g) {
     	try {
         	//imagem apenas de inlustação
-            File file = new File("src/imagens/special.jpg");
+            File file = new File("src/imagens/screen-special.png");
             BufferedImage img = ImageIO.read(file);
 
             int newWidth = (int) (getWidth() * 0.46); //314 Ajuste conforme necessário
@@ -210,7 +213,8 @@ public class WindowPanel extends JPanel {
             int y = (getHeight()-newHeight ) / 2;
             
                     
-            g.drawImage(img, x, y, 400, 360, panel);           
+            g.drawImage(img, x, y, 400, 360, panel);
+            g.drawRect(x, y, newWidth, newHeight);
           
             
         } catch (IOException e) {
@@ -241,7 +245,7 @@ public class WindowPanel extends JPanel {
  
     public static void drawWindows(Graphics g, JPanel panel) {
         try {
-            File file = new File("src/imagens/Pip-Boy_3000Cover1.png");
+            File file = new File("src/imagens/cover.png");
             BufferedImage image = ImageIO.read(file);
 
             // Desenha a imagem no painel
@@ -254,7 +258,7 @@ public class WindowPanel extends JPanel {
     //--imagem da tela   
     public static void drawDownWindows(Graphics g,float opacity,JPanel panel) {
  	   try {
- 		   File file = new File("src/imagens/telaDaTv.png");
+ 		   File file = new File("src/imagens/screen.png");
  		   BufferedImage image = ImageIO.read(file);
  		   Graphics g2d = (Graphics2D) g.create();
           

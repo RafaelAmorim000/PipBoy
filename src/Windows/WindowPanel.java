@@ -20,7 +20,7 @@ public class WindowPanel extends JPanel {
     private Timer timer;
     
     public WindowPanel() {
-        setLayout(new BorderLayout());
+        setLayout(null);
         setBackground(Color.BLACK);
         
         
@@ -57,7 +57,8 @@ public class WindowPanel extends JPanel {
         buttonPanel.add(perksButton);
         buttonPanel.add(generalButton);
 
-        add(buttonPanel, BorderLayout.LINE_START);
+        buttonPanel.setBounds(60, 540,967, 100);
+        add(buttonPanel);
         //-------------------------------------------------------
         
          velocityPriteSheet();

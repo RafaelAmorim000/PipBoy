@@ -1,10 +1,11 @@
-package windows;
+package Windows;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -58,15 +59,16 @@ public class WindowPanel extends JPanel {
         buttonPanel.add(skillsButton);
         buttonPanel.add(perksButton);
         buttonPanel.add(generalButton);
-
         buttonPanel.setBounds(60, 540,967, 100);
+
         add(buttonPanel);
+
+        repaint();
         //-------------------------------------------------------
         
          velocityPriteSheet();
          loadSpriteSheetStatus();
-    }
-
+    }    
     //Methods
     // Função para configurar as propriedades dos botões no estilo Pip-Boy
     private void setPipBoyButtonProperties(JButton button) {
@@ -80,7 +82,7 @@ public class WindowPanel extends JPanel {
         button.setFocusPainted(false); 
         button.setModel(new DefaultButtonModel());
     }
-    	
+    
     private JButton createButton(String label, String newOption) {
         JButton button = new JButton(label);
         button.addActionListener(e -> {
@@ -89,6 +91,7 @@ public class WindowPanel extends JPanel {
         return button;
     }
 
+    
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -96,7 +99,8 @@ public class WindowPanel extends JPanel {
         
         switch(option) {
         	case "Status":
-        		drawStatus(g);
+        		
+        		drawStatus(g);        		
         	break;
         	case "SPECIAL":
         		drawSpecial(g);
@@ -112,15 +116,45 @@ public class WindowPanel extends JPanel {
         	break;
         
         }
-       
-        // Outros desenhos e componentes
-        drawDownWindows(g, 0.4f, this);
-        drawWindows(g, this);
         
+        // Outros desenhos e componentes    
+        paintstats(g);
+        drawDownWindows(g, 0.4f, this);
+        
+        drawWindows(g, this);
+       
         
         
     }
-    
+    public void paintstats(Graphics g) {
+    	
+    try {
+		File file1 = new File("src/imagens/borda1.png");
+		File file2 = new File("src/imagens/borda2.png");
+		File file3 = new File("src/imagens/borda3.png");
+		File file4 = new File("src/imagens/borda4.png");
+		BufferedImage img1 = ImageIO.read(file1);		
+		BufferedImage img2 = ImageIO.read(file2);	
+		BufferedImage img3 = ImageIO.read(file3);	
+		BufferedImage img4 = ImageIO.read(file4);	
+		g.drawImage(img1, 240, 180,40,40 , panel);	
+		g.drawImage(img4,360, 180,40,40 , panel);
+		
+		JLabel label= new JLabel("STATUS");
+		label.setBounds(295, 160, 60, 40);		
+		label.setForeground(Color.green);
+		
+		Font font = new Font("Arial", Font.BOLD, 14); // Substitua "Arial" pela fonte desejada e 14 pelo tamanho desejado
+        label.setFont(font);
+        
+		label.setVisible(true);
+		add(label);
+		
+	} catch (Exception e) {
+		System.out.println(e);
+	}
+    	   
+    }
  //------------------------------------------
     
     
@@ -264,7 +298,7 @@ public class WindowPanel extends JPanel {
           
           ((Graphics2D) g2d).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 
- 		   g2d.drawImage(image, 90,  125, 900, 500, panel);
+ 		   g2d.drawImage(image, 100,125, 960, 500, panel);
  	   }catch (Exception e) {
 		System.out.println(e);
 	}

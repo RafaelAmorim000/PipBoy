@@ -1,6 +1,6 @@
 package main;
 
-import windows.WindowFrame;
+import Windows.WindowFrame;
 
 public class Main {
 

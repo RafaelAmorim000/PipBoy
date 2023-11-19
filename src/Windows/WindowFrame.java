@@ -17,9 +17,9 @@ public class WindowFrame extends JFrame {
     private void initialize() {
         setTitle("Windows");
         setLocation(0,0);       
-        setSize(480*2, 280*2);
+        setSize(520*2, 460*2);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+        setResizable(false);
         
         panel = new WindowPanel();
         getContentPane().add(panel);

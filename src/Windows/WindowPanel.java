@@ -21,35 +21,60 @@ public class WindowPanel extends JPanel {
     
     public WindowPanel() {
         setLayout(new BorderLayout());
-        setBackground(Color.BLACK); 
+        setBackground(Color.BLACK);
         
+        
+
         /*------------------------------------------------------
         *
         *			BUTTON
         *
-       	-------------------------------------------------------*/
+        -------------------------------------------------------*/
+
+        // Cria os botões
         JButton statusButton = createButton("Status", "Status");
-        JButton skillsButton = createButton("Skills", "Skills");    
-        JButton specialButton= createButton("S.P.E.C.I.A.L", "SPECIAL");
-        JButton PerksButton  = createButton("Perks","Perks");
-        JButton GeneralButton= createButton("General","General");
-       
+        JButton skillsButton = createButton("Skills", "Skills");
+        JButton specialButton = createButton("S.P.E.C.I.A.L", "SPECIAL");
+        JButton perksButton = createButton("Perks", "Perks");
+        JButton generalButton = createButton("General", "General");
+
+        // Define as propriedades dos botões
+        setPipBoyButtonProperties(statusButton);
+        setPipBoyButtonProperties(skillsButton);
+        setPipBoyButtonProperties(specialButton);
+        setPipBoyButtonProperties(perksButton);
+        setPipBoyButtonProperties(generalButton);             
+        
+        // Cria o painel de botões
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout());
-        buttonPanel.setBackground(Color.BLACK);
-       
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, -10));
+        buttonPanel.setOpaque(false);
+         
+        // Adiciona os botões ao painel
         buttonPanel.add(statusButton);
         buttonPanel.add(specialButton);
         buttonPanel.add(skillsButton);
-        buttonPanel.add(PerksButton);
-        buttonPanel.add(GeneralButton);
+        buttonPanel.add(perksButton);
+        buttonPanel.add(generalButton);
 
-        add(buttonPanel, BorderLayout.SOUTH);
-        
+        add(buttonPanel, BorderLayout.LINE_START);
         //-------------------------------------------------------
-        velocityPriteSheet();
-        loadSpriteSheetStatus();
         
+         velocityPriteSheet();
+         loadSpriteSheetStatus();
+    }
+
+    // Função para configurar as propriedades dos botões no estilo Pip-Boy
+    private void setPipBoyButtonProperties(JButton button) {
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+        button.setForeground(Color.GREEN);
+        button.setFont(button.getFont().deriveFont(Font.BOLD, button.getFont().getSize()));
+        button.setText(button.getText().toUpperCase());
+        button.setMargin(new Insets(5, 60,30,5));
+        button.setFocusPainted(false); 
+        button.setModel(new DefaultButtonModel());
     }
     	
     private JButton createButton(String label, String newOption) {
@@ -63,6 +88,8 @@ public class WindowPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        
+        
         switch(option) {
         	case "Status":
         		drawStatus(g);
@@ -83,9 +110,10 @@ public class WindowPanel extends JPanel {
         }
        
         // Outros desenhos e componentes
-        
         drawDownWindows(g, 0.4f, this);
         drawWindows(g, this);
+        
+        
         
     }
     
@@ -162,7 +190,7 @@ public class WindowPanel extends JPanel {
 
             // Desenha o frame atual com escala
             g.drawImage(spriteSheet.getSubimage(sourceX, 0, frameWidth, frameHeight),
-                        x, y, scaledWidth, scaledHeight, null);
+                       490, 230, scaledWidth, scaledHeight, null);
         }
     }
 
@@ -212,11 +240,11 @@ public class WindowPanel extends JPanel {
  
     public static void drawWindows(Graphics g, JPanel panel) {
         try {
-            File file = new File("src/imagens/TV.png");
+            File file = new File("src/imagens/Pip-Boy_3000Cover1.png");
             BufferedImage image = ImageIO.read(file);
 
             // Desenha a imagem no painel
-            g.drawImage(image, 0, 0, panel.getWidth(), panel.getHeight(), panel);
+            g.drawImage(image, -360, 0, 580*3, 320*3, panel);
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -231,7 +259,7 @@ public class WindowPanel extends JPanel {
           
           ((Graphics2D) g2d).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 
- 		   g2d.drawImage(image, 0, 0, panel.getWidth(), panel.getHeight(), panel);
+ 		   g2d.drawImage(image, 90,  125, 900, 500, panel);
  	   }catch (Exception e) {
 		System.out.println(e);
 	}

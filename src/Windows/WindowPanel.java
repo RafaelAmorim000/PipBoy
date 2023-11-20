@@ -2,6 +2,8 @@ package Windows;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,62 +20,83 @@ public class WindowPanel extends JPanel {
     private static JPanel panel;
     
     //Elemenetos do game
-    private int level= 2;
-    private int HP = 60;
-    private int MaxHP=200;
-    private int AP=60;
+    private int level= 3;
+    private int HP = 190;
+    private int MaxHP=260;
+    private int AP=75;
     private int MAXAP=75;
     
     private int xpLvl=1000;
-    private int XP= 1064;
+    private int XP= 2504;
     private int MaxXP=xpLvl*level;
     //--------------------
-    private int currentFrame = 0; // Adicione esta variável para controlar os frames do sprite   
+    private int currentFrame = 0; //variável para controlar os frames do sprite   
     private BufferedImage spriteSheet;
     private Timer timer;
     
+    public  JButton CND = createButton("CND", "CND");
+    public  JButton RAD = createButton("RAD", "RAD");
+    public  JButton EFF = createButton("EFF", "EFF");
     //Constructor
     public WindowPanel() {
-        setLayout(null);
+    	setLayout(null);
         setBackground(Color.BLACK);
-        
-        
 
         /*------------------------------------------------------
         *
         *			BUTTON
         *
         -------------------------------------------------------*/
-
+    
         // Cria os botões
         JButton statusButton = createButton("Status", "Status");
         JButton skillsButton = createButton("Skills", "Skills");
         JButton specialButton = createButton("S.P.E.C.I.A.L", "SPECIAL");
         JButton perksButton = createButton("Perks", "Perks");
         JButton generalButton = createButton("General", "General");
-
+        
         // Define as propriedades dos botões
         setPipBoyButtonProperties(statusButton);
         setPipBoyButtonProperties(skillsButton);
         setPipBoyButtonProperties(specialButton);
         setPipBoyButtonProperties(perksButton);
         setPipBoyButtonProperties(generalButton);             
+        setPipBoyButtonProperties(CND);
+        setPipBoyButtonProperties(RAD);
+        setPipBoyButtonProperties(EFF);
         
         // Cria o painel de botões
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, -10));
-        buttonPanel.setOpaque(false);
+        statusButton.setBounds(264, 519, 71, 30);  
+        specialButton.setBounds(380, 519, 105, 30); 
+        skillsButton.setBounds(520, 519, 100, 30);  
+        perksButton.setBounds(655, 519, 100, 30);  
+        generalButton.setBounds(786, 519, 100, 30);  
+        
+        Border border = BorderFactory.createLineBorder(Color.green);
+        CND.setBorder(border); 
+        RAD.setBorder(border);
+        EFF.setBorder(border);
+        CND.setBounds(210,240, 67, 30);
+        RAD.setBounds(210,280, 67, 30);
+        EFF.setBounds(210,320, 67, 30);
+        CND.setBorderPainted(true);
+        RAD.setBorderPainted(true);
+        EFF.setBorderPainted(true);
+       
          
         // Adiciona os botões ao painel
-        buttonPanel.add(statusButton);
-        buttonPanel.add(specialButton);
-        buttonPanel.add(skillsButton);
-        buttonPanel.add(perksButton);
-        buttonPanel.add(generalButton);
-        buttonPanel.setBounds(60, 540,967, 100);
-
-        add(buttonPanel);
-
+        add(statusButton);
+        add(specialButton);
+        add(skillsButton);
+        add(perksButton);
+        add(generalButton);
+        
+        add(CND);
+        add(RAD);
+        add(EFF);
+        
+        
+        
         repaint();
         //-------------------------------------------------------
         
@@ -87,11 +110,11 @@ public class WindowPanel extends JPanel {
         button.setContentAreaFilled(false);
         button.setBorderPainted(false);
         button.setForeground(Color.GREEN);
-        button.setFont(new Font("Arial", Font.BOLD,button.getFont().getSize()));
-        button.setText(button.getText().toUpperCase());
-        button.setMargin(new Insets(5, 60,30,5));
+        button.setFont(new Font("Arial", Font.BOLD,12));                   
         button.setFocusPainted(false); 
         button.setModel(new DefaultButtonModel());
+       
+
     }
     
     private JButton createButton(String label, String newOption) {
@@ -109,19 +132,28 @@ public class WindowPanel extends JPanel {
         
         
         switch(option) {
+        	case "CND":	
+    		drawStatus(g); 
+    		
+    		break;
+    		
         	case "Status":
         		
         		drawStatus(g);        		
         	break;
+        	
         	case "SPECIAL":
         		drawSpecial(g);
         	break;
+        	
         	case "Skills":
         		drawSkills(g);
         	break;
+        	
         	case "Perks":
         		drawPerks(g);
         	break;
+        	
         	case "General":
         		drawGeneral(g);
         	break;
@@ -130,10 +162,20 @@ public class WindowPanel extends JPanel {
         
         // Outros desenhos e componentes    
         paintstats(g);
-        drawDownWindows(g, 0.4f, this);
-        
+        drawDownWindows(g, 0.4f, this);        
         drawWindows(g, this);
        
+        if(option.equals("Status")||option.equals("CND")||option.equals("RAD")||option.equals("EFF")) {
+    		CND.setVisible(true);
+    		RAD.setVisible(true);
+    		EFF.setVisible(true);
+    	}
+        else {
+        	CND.setVisible(false);
+        	RAD.setVisible(false);
+    		EFF.setVisible(false);
+        }
+        
         
         
     }
@@ -157,11 +199,19 @@ public class WindowPanel extends JPanel {
 		BufferedImage img4 = ImageIO.read(file4);	
 		BufferedImage img5 = ImageIO.read(file5);
 		
+		//parte de baixo
+		g.drawImage(img3, 225, 495,40, 40, panel);
+		g.drawImage(img2, 885, 495,40, 40, panel);
+		g.drawImage(img5, 335, 530,45, 5, panel);
+		g.drawImage(img5, 485, 530,35, 5, panel);
+		g.drawImage(img5, 619, 530,37, 5, panel);
+		g.drawImage(img5, 754, 530,34, 5, panel);
+		
 		//Status---------------------
 		g.drawImage(img1, 240, 180,40,40 , panel);	
 		g.drawImage(img4, 450, 181,40,40 , panel);
 		g.drawImage(img5, 360, 180,125,5 , panel);		
-		JLabel label	 = new JLabel("STATUS");
+		JLabel label	 = new JLabel("STATUS");	
 		JLabel labelLvl  = new JLabel(String.valueOf("LVL      "+level));
 		
 		
@@ -232,6 +282,7 @@ public class WindowPanel extends JPanel {
     
     //layout skills-----------------------------
     private void drawSkills(Graphics g) {
+    
         // Lógica para desenhar a tela de Skills	
 		g.drawString("Skills", getWidth() / 2, getHeight() / 2);		
     }   
@@ -242,7 +293,7 @@ public class WindowPanel extends JPanel {
 
  -------------------------------------------------------*/
   private void velocityPriteSheet() {
-	  timer = new Timer(50, new ActionListener() {
+	  timer = new Timer(60, new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent e) {
               currentFrame = (currentFrame + 1) % 21;
@@ -266,7 +317,10 @@ public class WindowPanel extends JPanel {
            System.out.println(e);
         }
     }       
-    private void drawStatus(Graphics g) {
+    private void drawStatus(Graphics g) {   
+    	
+    	
+    	//sprite andando na tela
         if (spriteSheet != null) {
             int frameWidth = 121;
             int frameHeight = 169;
@@ -292,6 +346,8 @@ public class WindowPanel extends JPanel {
 
   //----------------------------------Fim da tela de status----------------------------------------------  
     private void drawSpecial(Graphics g) {
+    	
+    	
     	try {
         	//imagem apenas de inlustação
             File file = new File("src/imagens/screen-special.png");
@@ -317,10 +373,12 @@ public class WindowPanel extends JPanel {
     
     private void drawPerks(Graphics g) {
         // Lógica para desenhar a tela de Perks
+    
         g.drawString("Perks", getWidth() / 2, getHeight() / 2);
     }
     private void drawGeneral(Graphics g) {
         // Lógica para desenhar a tela de General
+    
         g.drawString("General", getWidth() / 2, getHeight() / 2);
     }
 
@@ -330,7 +388,7 @@ public class WindowPanel extends JPanel {
     }
 
     public void setOption(String newOption) {
-        option = newOption;
+        option = newOption; 
         repaint();
     }
     

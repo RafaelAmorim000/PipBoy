@@ -1,19 +1,18 @@
 package Windows;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import javax.swing.JFrame;
 
 public class WindowFrame extends JFrame {
+	
+	//Fields
     private static WindowPanel panel;
 
+    //Constructor
     public WindowFrame() {
         initialize();
     }
 
+    //Methods
     private void initialize() {
         setTitle("Windows");
         setLocation(0,0);       

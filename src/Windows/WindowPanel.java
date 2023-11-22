@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,9 +24,21 @@ public class WindowPanel extends JPanel {
     private int level= 3;
     private int HP = 190;
     private int MaxHP=260;
+    
+    private static int resistencia = 5 ;
+    private static int rad =obterNivelDeRadiacao(60);
+    private static double valorResistencia = rad * ((double) resistencia / 100);
+     
+
+    //membros
+    private int HPmembros=100;
+    private int MaxHPmembros=200;
+    
+    //ap
     private int AP=75;
     private int MAXAP=75;
     
+    //LVL
     private int xpLvl=1000;
     private int XP= 2504;
     private int MaxXP=xpLvl*level;
@@ -33,6 +46,14 @@ public class WindowPanel extends JPanel {
     private int currentFrame = 0; //variável para controlar os frames do sprite   
     private BufferedImage spriteSheet;
     private Timer timer;
+    //SPECIAL
+    private int Strength=5;
+    private int Perception=5;
+    private int Endurance=5;
+    private int Charisma=5;
+    private int Intelligence=5;
+    private int Agility=5;
+    private int Luck=5;
     
     public  JButton CND = createButton("CND", "CND");
     public  JButton RAD = createButton("RAD", "RAD");
@@ -53,7 +74,7 @@ public class WindowPanel extends JPanel {
         JButton skillsButton = createButton("Skills", "Skills");
         JButton specialButton = createButton("S.P.E.C.I.A.L", "SPECIAL");
         JButton perksButton = createButton("Perks", "Perks");
-        JButton generalButton = createButton("General", "General");
+        JButton generalButton = createButton("Geral", "General");
         
         // Define as propriedades dos botões
         setPipBoyButtonProperties(statusButton);
@@ -160,11 +181,18 @@ public class WindowPanel extends JPanel {
         
         }
         
-        // Outros desenhos e componentes    
-        paintstats(g);
-        drawDownWindows(g, 0.4f, this);        
-        drawWindows(g, this);
-       
+        
+        
+        if(option.equals("Status")||option.equals("CND")) {  	
+        	paintCND(g);       	         	
+        }
+        else if(option.equals("RAD")) {      	
+        	paintRAD(g);        	
+        }
+        else if(option.equals("EFF")) {        	
+        	paintEFF(g);      	
+        }
+               
         if(option.equals("Status")||option.equals("CND")||option.equals("RAD")||option.equals("EFF")) {
     		CND.setVisible(true);
     		RAD.setVisible(true);
@@ -176,7 +204,11 @@ public class WindowPanel extends JPanel {
     		EFF.setVisible(false);
         }
         
-        
+
+    	// Outros desenhos e componentes    
+        paintstats(g);
+        drawDownWindows(g, 0.4f, this);        
+        drawWindows(g, this);    
         
     }
     //------------------------------------------------
@@ -257,6 +289,8 @@ public class WindowPanel extends JPanel {
 		add(HP);
 		add(labelLvl);
 		add(label);
+		
+		
 		
 	} catch (Exception e) {
 		System.out.println(e);
@@ -349,23 +383,10 @@ public class WindowPanel extends JPanel {
     	
     	
     	try {
-        	//imagem apenas de inlustação
-            File file = new File("src/imagens/screen-special.png");
-            BufferedImage img = ImageIO.read(file);
-
-            int newWidth = (int) (getWidth() * 0.46); //314 Ajuste conforme necessário
-            int newHeight = (int) ((double) newWidth / 80 * 65);//19
-
+    		    		
+    		g.drawString("special", 500, 300);
             
-            int x = (getWidth() -newWidth ) / 2;
-            int y = (getHeight()-newHeight ) / 2;
-            
-                    
-            g.drawImage(img, x, y, 400, 360, panel);
-            g.drawRect(x, y, newWidth, newHeight);
-          
-            
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println(e);
             
         }  
@@ -420,5 +441,114 @@ public class WindowPanel extends JPanel {
 	}
  	   
     }
-   
+    
+    //desenha o botão CND
+    public void paintCND(Graphics g){
+    	try {
+    		//iamgens
+    		File img = new File("src/imagens/barrasuperior.png");
+    		File img2 = new File("src/imagens/barra2.png");
+    		File imge = new File("src/imagens/barra.png");
+			BufferedImage barrasup = ImageIO.read(img);
+			BufferedImage barra = ImageIO.read(imge);
+			BufferedImage barra2 = ImageIO.read(img2);
+			
+			//inverte imagem
+			AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
+	        tx.translate(-barrasup.getWidth(null), 0);
+	        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+	        BufferedImage invertedImage = op.filter(barrasup, null);
+	        
+			//calculo para determinar a vida de cada membro
+	        int larguraDesejada = (int) (43 * ((double)HPmembros / MaxHPmembros));
+			larguraDesejada = Math.min(larguraDesejada, 43);
+	        
+	        //adiciona as imagens da barra superior		        
+			g.drawImage(barrasup, 430,330 ,56, 15, panel);
+			g.drawImage(barrasup, 445,430 ,56, 15, panel);
+			g.drawImage(barrasup, 445,430 ,56, 15, panel);
+			g.drawImage(barra2, 547,480 ,50, 13, panel);
+			g.drawImage(barra2, 540,235 ,50, 13, panel);
+			
+			//imagens invertidas
+			g.drawImage(invertedImage, 635,430 ,56, 15, panel);
+			g.drawImage(invertedImage, 645,330 ,56, 15, panel);
+			
+			//adiciona a barra inferior
+			g.drawImage(barra, 645,434 ,43, 12, panel);
+			g.drawImage(barra, 655,334 ,43, 12, panel);
+			g.drawImage(barra, 447,434 ,43, 12, panel);
+			g.drawImage(barra, 432, 334, larguraDesejada, 12, panel);
+			g.drawImage(barra, 550,483 ,43, 12, panel);
+			g.drawImage(barra, 543,238 ,43, 12, panel);
+			
+			
+		} catch (IOException e) {
+			System.out.println(e);
+		}
+    }
+    
+    //desenha o botão RAD
+    public static void paintRAD(Graphics g) {
+        try {
+        	
+        	
+        	double valorFinal = rad - valorResistencia;
+            // radiação
+            File file = new File("src/imagens/barraderad.png");
+            File file1 = new File("src/imagens/seta.png");
+            File file2 = new File("src/imagens/borda4.png");
+            File file3 = new File("src/imagens/barra.png");
+            
+            BufferedImage img = ImageIO.read(file);
+            BufferedImage img1 = ImageIO.read(file1);
+            BufferedImage img2 = ImageIO.read(file2);
+            BufferedImage img3 = ImageIO.read(file3);
+            
+            int posicaoSeta = calcularPosicaoSeta((int)valorFinal);
+
+            g.drawImage(img, 519, 360, 410, 100, panel);
+            g.drawImage(img1, 600 + posicaoSeta + 20, 400, 20, 40, panel);
+            g.drawImage(img2, 430, 360, 85, 80, panel);
+            g.drawImage(img3, 217, 359, 300, 15, panel);
+            
+            Font font = new Font("Arial", Font.BOLD, 15);
+            g.setFont(font);
+            g.setColor(Color.GREEN);
+            g.drawString("RAD", 520, 390);
+
+            // Use o valor real de rad, sem multiplicar por 2
+            String valorRadStr = Integer.toString((int)valorFinal*2);
+            FontMetrics metrics = g.getFontMetrics(font);
+            int larguraTexto = metrics.stringWidth(valorRadStr);
+
+            // Ajuste na posição do texto
+            g.drawString(valorRadStr, 588 + posicaoSeta - larguraTexto / 2 + 20, 440);
+
+           
+            g.drawString("RESIST RADIAÇÃO  "+resistencia+"%", 221, 390);
+            g.drawString("500", 775, 350);
+            g.drawString("1000", 895, 350);
+    		
+    	
+           
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private static int obterNivelDeRadiacao(int valorSimulado) {
+        // Use o valor simulado para calcular a posição da seta
+        return calcularPosicaoSeta(valorSimulado);
+    }
+
+    private static int calcularPosicaoSeta(int nivelDeRadiacao) {
+        int nivelLimitado = Math.min(nivelDeRadiacao, 1000);
+        int fatorDeEscalonamento = 1;
+        return nivelLimitado * fatorDeEscalonamento/2;
+    }
+     //desenha o eff
+    public static void paintEFF(Graphics g) {
+    	g.drawString("EFF", 500, 300);
+    }
 }

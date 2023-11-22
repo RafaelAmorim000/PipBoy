@@ -517,7 +517,7 @@ public class WindowPanel extends JPanel {
             g.setColor(Color.GREEN);
             g.drawString("RAD", 520, 390);
 
-            // Use o valor real de rad, sem multiplicar por 2
+            
             String valorRadStr = Integer.toString((int)valorFinal*2);
             FontMetrics metrics = g.getFontMetrics(font);
             int larguraTexto = metrics.stringWidth(valorRadStr);
@@ -538,7 +538,7 @@ public class WindowPanel extends JPanel {
     }
 
     private static int obterNivelDeRadiacao(int valorSimulado) {
-        // Use o valor simulado para calcular a posição da seta
+     
         return calcularPosicaoSeta(valorSimulado);
     }
 

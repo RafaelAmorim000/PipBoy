@@ -1,4 +1,4 @@
-package Windows;
+package windows;
 
 import javax.swing.JFrame;
 
@@ -19,9 +19,6 @@ public class WindowFrame extends JFrame {
         setSize(520*2, 460*2);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-        
-        panel = new WindowPanel();
-        getContentPane().add(panel);
 
         setVisible(true);
     }

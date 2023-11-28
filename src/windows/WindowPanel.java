@@ -1,4 +1,4 @@
-package Windows;
+package windows;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -23,6 +23,8 @@ public class WindowPanel extends JPanel {
     
     //Constructor
     public WindowPanel() {
+    	panel = new JPanel();
+    	setSize(520*2, 460*2);
         setLayout(null);
         setBackground(Color.BLACK);
         
@@ -34,24 +36,19 @@ public class WindowPanel extends JPanel {
         *
         -------------------------------------------------------*/
 
-        // Cria os botões
-        JButton statusButton = createButton("Status", "Status");
-        JButton skillsButton = createButton("Skills", "Skills");
-        JButton specialButton = createButton("S.P.E.C.I.A.L", "SPECIAL");
-        JButton perksButton = createButton("Perks", "Perks");
-        JButton generalButton = createButton("General", "General");
-
-        // Define as propriedades dos botões
-        setPipBoyButtonProperties(statusButton);
-        setPipBoyButtonProperties(skillsButton);
-        setPipBoyButtonProperties(specialButton);
-        setPipBoyButtonProperties(perksButton);
-        setPipBoyButtonProperties(generalButton);             
+        // Cria e configura os botões
+        JButton statusButton = createButton("Status", "Status",0,0);
+        JButton skillsButton = createButton("Skills", "Skills",130,0);
+        JButton specialButton = createButton("S.P.E.C.I.A.L", "SPECIAL",260,0);
+        JButton perksButton = createButton("Perks", "Perks",390,0);
+        JButton generalButton = createButton("General", "General",520,0);         
         
         // Cria o painel de botões
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, -10));
-        buttonPanel.setOpaque(false);
+        Container buttonPanel = new Container();
+        buttonPanel.setBounds(190, 470, 967, 300);
+        buttonPanel.setLayout(null);
+        //buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
+        //buttonPanel.setOpaque(false);
          
         // Adiciona os botões ao painel
         buttonPanel.add(statusButton);
@@ -59,7 +56,7 @@ public class WindowPanel extends JPanel {
         buttonPanel.add(skillsButton);
         buttonPanel.add(perksButton);
         buttonPanel.add(generalButton);
-        buttonPanel.setBounds(60, 540,967, 100);
+        
 
         add(buttonPanel);
 
@@ -70,21 +67,21 @@ public class WindowPanel extends JPanel {
          loadSpriteSheetStatus();
     }    
     //Methods
-    // Função para configurar as propriedades dos botões no estilo Pip-Boy
-    private void setPipBoyButtonProperties(JButton button) {
+    // Função para configurar as propriedades dos botões no estilo Pip-Boy   
+    private JButton createButton(String label, String newOption, int x, int y) {
+        JButton button = new JButton(label);
         button.setOpaque(false);
         button.setContentAreaFilled(false);
-        button.setBorderPainted(false);
+        button.setBorderPainted(true);
         button.setForeground(Color.GREEN);
+        button.setBorder(BorderFactory.createLineBorder(Color.green, 1));
         button.setFont(new Font("Arial", Font.BOLD,button.getFont().getSize()));
         button.setText(button.getText().toUpperCase());
-        button.setMargin(new Insets(5, 60,30,5));
+        button.setSize(130, 80);
+        button.setLocation(x, y);
+        //button.setMargin(new Insets(5, 60,30,5));
         button.setFocusPainted(false); 
         button.setModel(new DefaultButtonModel());
-    }
-    
-    private JButton createButton(String label, String newOption) {
-        JButton button = new JButton(label);
         button.addActionListener(e -> {
             setOption(newOption);
         });
@@ -129,16 +126,12 @@ public class WindowPanel extends JPanel {
     public void paintstats(Graphics g) {
     	
     try {
-		File file1 = new File("src/imagens/borda1.png");
-		File file2 = new File("src/imagens/borda2.png");
-		File file3 = new File("src/imagens/borda3.png");
-		File file4 = new File("src/imagens/borda4.png");
-		BufferedImage img1 = ImageIO.read(file1);		
-		BufferedImage img2 = ImageIO.read(file2);	
-		BufferedImage img3 = ImageIO.read(file3);	
-		BufferedImage img4 = ImageIO.read(file4);	
+		BufferedImage img1 = ImageIO.read(getClass().getClassLoader().getResource("imagens/borda1.png"));		
+		BufferedImage img2 = ImageIO.read(getClass().getClassLoader().getResource("imagens/borda2.png"));	
+		BufferedImage img3 = ImageIO.read(getClass().getClassLoader().getResource("imagens/borda3.png"));	
+		BufferedImage img4 = ImageIO.read(getClass().getClassLoader().getResource("imagens/borda4.png"));	
 		g.drawImage(img1, 240, 180,40,40 , panel);	
-		g.drawImage(img4,360, 180,40,40 , panel);
+		g.drawImage(img4, 360, 180,40,40 , panel);
 		
 		JLabel label= new JLabel("STATUS");
 		label.setBounds(295, 160, 60, 40);		

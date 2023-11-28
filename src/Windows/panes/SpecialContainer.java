@@ -14,6 +14,7 @@ import main.Main;
 
 public class SpecialContainer extends Container {
 
+	//Constructor
 	public SpecialContainer() {
 		setName("Special_Container");
 		try {

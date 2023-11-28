@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import Windows.panes.SpecialContainer;
+import Windows.panes.StatusContainer;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,10 +20,6 @@ public class WindowPanel extends JPanel {
     private String option = "Status";  // opição inicial
     private static JPanel panel;
     private static Container containerPane = new Container();
-    
-    private int currentFrame = 0; // Adicione esta variável para controlar os frames do sprite   
-    private BufferedImage spriteSheet;
-    private Timer timer;
     
     //Constructor
     public WindowPanel() {
@@ -69,9 +66,6 @@ public class WindowPanel extends JPanel {
 
         repaint();
         //-------------------------------------------------------
-        
-         velocityPriteSheet();
-         loadSpriteSheetStatus();
     }
     
     //Methods
@@ -104,6 +98,7 @@ public class WindowPanel extends JPanel {
         switch(option) {
         	case "Status":
         		remove(containerPane);
+        		createComponents();
         		drawStatus(g);        		
         	break;
         	case "SPECIAL":
@@ -118,10 +113,12 @@ public class WindowPanel extends JPanel {
         	break;
         	case "Perks":
         		remove(containerPane);
+        		createComponents();
         		drawPerks(g);
         	break;
         	case "General":
         		remove(containerPane);
+        		createComponents();
         		drawGeneral(g);
         	break;
         
@@ -189,58 +186,15 @@ public class WindowPanel extends JPanel {
       			metodos do status    
 
  -------------------------------------------------------*/
-  private void velocityPriteSheet() {
-	  timer = new Timer(60, new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-              currentFrame = (currentFrame + 1) % 21;
-              repaint();
-          }
-      });
-      timer.start(); 
-  }
-    private void loadSpriteSheetStatus() {
-        try {
-            // Carrega a sprite sheet como um recurso do sistema de arquivos
-            URL location = getClass().getClassLoader().getResource("imagens/pipboy-sprites.png");
-
-            if (location != null) {
-                //carregar a imagem
-                this.spriteSheet = ImageIO.read(location);
-            } else {
-                System.err.println("Imagem não encontrada: "+ location);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }       
+  
+           
     private void drawStatus(Graphics g) {
-        if (spriteSheet != null) {
-            int frameWidth = 121;
-            int frameHeight = 169;
-
-            // Fatores de escala desejados 
-            double scaleX = 1.5;
-            double scaleY = 1.5;
-
-            int scaledWidth = (int) (frameWidth * scaleX);
-            int scaledHeight = (int) (frameHeight * scaleY);
-
-            int x = (getWidth() - scaledWidth) / 2;
-            int y = (getHeight() - scaledHeight) / 2;
-
-            // Ajuste para considerar os frames
-            int sourceX = currentFrame * frameWidth;
-
-            // Desenha o frame atual com escala
-            g.drawImage(spriteSheet.getSubimage(sourceX, 0, frameWidth, frameHeight),
-                       490, 230, scaledWidth, scaledHeight, null);
-        }
+    	containerPane = new StatusContainer();
     }
 
   //----------------------------------Fim da tela de status----------------------------------------------  
     private void drawSpecial(Graphics g) {
-    	  containerPane = new SpecialContainer();
+    	containerPane = new SpecialContainer();
     }
     
     private void drawPerks(Graphics g) {

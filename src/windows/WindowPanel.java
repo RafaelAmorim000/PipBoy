@@ -1,11 +1,13 @@
-package windows;
+package Windows;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import Windows.panes.SpecialContainer;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +18,8 @@ public class WindowPanel extends JPanel {
 	//Fields
     private String option = "Status";  // opição inicial
     private static JPanel panel;
-  
+    private static Container containerPane = new Container();
+    
     private int currentFrame = 0; // Adicione esta variável para controlar os frames do sprite   
     private BufferedImage spriteSheet;
     private Timer timer;
@@ -30,7 +33,11 @@ public class WindowPanel extends JPanel {
         
         
 
-        /*------------------------------------------------------
+        createComponents();
+    }    
+    
+    public void createComponents() {
+    	/*------------------------------------------------------
         *
         *			BUTTON
         *
@@ -65,7 +72,8 @@ public class WindowPanel extends JPanel {
         
          velocityPriteSheet();
          loadSpriteSheetStatus();
-    }    
+    }
+    
     //Methods
     // Função para configurar as propriedades dos botões no estilo Pip-Boy   
     private JButton createButton(String label, String newOption, int x, int y) {
@@ -93,22 +101,27 @@ public class WindowPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         
-        
         switch(option) {
         	case "Status":
-        		
+        		remove(containerPane);
         		drawStatus(g);        		
         	break;
         	case "SPECIAL":
+        		remove(containerPane);
+                createComponents();
         		drawSpecial(g);
         	break;
         	case "Skills":
+        		remove(containerPane);
+                createComponents();
         		drawSkills(g);
         	break;
         	case "Perks":
+        		remove(containerPane);
         		drawPerks(g);
         	break;
         	case "General":
+        		remove(containerPane);
         		drawGeneral(g);
         	break;
         
@@ -227,27 +240,7 @@ public class WindowPanel extends JPanel {
 
   //----------------------------------Fim da tela de status----------------------------------------------  
     private void drawSpecial(Graphics g) {
-    	try {
-        	//imagem apenas de inlustação
-            File file = new File("src/imagens/screen-special.png");
-            BufferedImage img = ImageIO.read(file);
-
-            int newWidth = (int) (getWidth() * 0.46); //314 Ajuste conforme necessário
-            int newHeight = (int) ((double) newWidth / 80 * 65);//19
-
-            
-            int x = (getWidth() -newWidth ) / 2;
-            int y = (getHeight()-newHeight ) / 2;
-            
-                    
-            g.drawImage(img, x, y, 400, 360, panel);
-            g.drawRect(x, y, newWidth, newHeight);
-          
-            
-        } catch (IOException e) {
-            System.out.println(e);
-            
-        }  
+    	  containerPane = new SpecialContainer();
     }
     
     private void drawPerks(Graphics g) {

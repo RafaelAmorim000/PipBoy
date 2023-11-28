@@ -1,4 +1,4 @@
-package windows.panes;
+package Windows.panes;
 
 
 public class Components {
